@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<beans:import resource="classpath*:/com/nicholasbeach/scamper/jdbc/*-sql.xml" />
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+	
+	<beans:bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <beans:property name="location">
+        	<beans:value>classpath:jdbc.properties</beans:value>
+        </beans:property>
+    </beans:bean>
+	
+	<beans:bean id="DataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<beans:property name="url" value="${jdbc.url}" />
+		<beans:property name="driverClassName" value="${jdbc.driverClassName}"/>
+		<beans:property name="username" value="${jdbc.username}"/>
+		<beans:property name="password" value="${jdbc.password}"/>
+		<beans:property name="initialSize" value="${jdbc.initialSize}" />
+		<beans:property name="maxActive" value="${jdbc.maxActive}" />
+		<beans:property name="validationQuery" value="SELECT count(*) FROM transaction LIMIT 1;" />
+	</beans:bean>
+	
+	<beans:bean id="JdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<beans:property name="dataSource" ref="DataSource" />
+		<beans:property name="fetchSize" value="10" />
+	</beans:bean>
+	
+	<context:component-scan base-package="com.spring.jdbc" />
+	
+</beans:beans>

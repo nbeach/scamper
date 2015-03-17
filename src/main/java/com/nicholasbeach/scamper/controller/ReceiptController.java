@@ -18,7 +18,7 @@ public class ReceiptController extends RepositoryRestfulController<Receipt> {
     @Inject
     private ReceiptMapper receiptRepository;
 
-    protected ResourceMapper<Receipt> getDaoService() {
+    protected ResourceMapper<Receipt> getMapper() {
 		return receiptRepository;
 	}
 	

@@ -36,7 +36,7 @@ public abstract class RepositoryRestfulController<T extends RestfulResource> imp
 	public ResponseEntity<Object> getResource(@PathVariable int id) {
 		logger.info("Get resource requested. id={}", id);
 		
-		T resource = getDaoService().retrieve(id);
+		T resource = getMapper().retrieve(id);
 		
 		if(resource != null) {
 			return new ResponseEntity<Object>(resource, HttpStatus.OK);
@@ -53,7 +53,7 @@ public abstract class RepositoryRestfulController<T extends RestfulResource> imp
 		T resource = mapJsonToObject(json);
 		
 		if(resource != null) {
-			resource = getDaoService().create(resource);
+			resource = getMapper().create(resource);
 		} else {
 			return new ResponseEntity<Object>("Error mapping JSON to resource", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -77,7 +77,7 @@ public abstract class RepositoryRestfulController<T extends RestfulResource> imp
 		if(resource != null) {
 			logger.info("Update resource requested. id={}", id);
 			resource.setId(id);
-			updateResult = getDaoService().update(resource);
+			updateResult = getMapper().update(resource);
 		} else {
 			return new ResponseEntity<Object>("Error mapping JSON to resource", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -96,7 +96,7 @@ public abstract class RepositoryRestfulController<T extends RestfulResource> imp
 	public ResponseEntity<Object> deleteResource(@PathVariable int id) {
 		logger.info("Delete resource requested. id={}", id);
 		
-		boolean deleteResult = getDaoService().delete(id);
+		boolean deleteResult = getMapper().delete(id);
 		
 		//If the delete succeeded return success
 		if(deleteResult) {
@@ -115,9 +115,9 @@ public abstract class RepositoryRestfulController<T extends RestfulResource> imp
 		
 		//Call the appropriate function based in the limit param value
 		if(limit != null) { 	
-			results = getDaoService().getLimited(limit);
+			results = getMapper().getLimited(limit);
 		} else { 
-			results =  getDaoService().retrieveAll();
+			results =  getMapper().retrieveAll();
 		}
 		
 		//If there are results
@@ -154,6 +154,6 @@ public abstract class RepositoryRestfulController<T extends RestfulResource> imp
 	}
 	
 	abstract protected Class<T> getResourceClass();
-	abstract protected ResourceMapper<T> getDaoService();
+	abstract protected ResourceMapper<T> getMapper();
 	
 }

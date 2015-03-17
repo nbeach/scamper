@@ -17,7 +17,7 @@ public class AccountController extends RepositoryRestfulController<Account> {
     @Inject
     private AccountMapper accountRepository;
 
-	protected ResourceMapper<Account> getDaoService() {
+	protected ResourceMapper<Account> getMapper() {
 		return accountRepository;
 	}
 	

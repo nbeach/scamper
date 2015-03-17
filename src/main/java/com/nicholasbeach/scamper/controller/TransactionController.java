@@ -31,7 +31,7 @@ public class TransactionController extends RepositoryRestfulController<Transacti
     @Inject
     private TransactionMapper transactionRepository;
 
-	protected ResourceMapper<Transaction> getDaoService() {
+	protected ResourceMapper<Transaction> getMapper() {
 		return transactionRepository;
 	}
 

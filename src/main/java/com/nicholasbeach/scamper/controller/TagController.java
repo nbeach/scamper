@@ -16,7 +16,7 @@ public class TagController extends RepositoryRestfulController<Tag> {
     @Inject
     private TagMapper tagRepository;
 	
-	protected TagMapper getDaoService() {
+	protected TagMapper getMapper() {
 		return tagRepository;
 	}
 

@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 
+import com.nicholasbeach.scamper.persistence.TransactionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,21 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nicholasbeach.scamper.domain.Transaction;
-import com.nicholasbeach.scamper.service.DaoService;
+import com.nicholasbeach.scamper.persistence.ResourceMapper;
 import com.nicholasbeach.scamper.util.CsvMapper;
 
 
 @RequestMapping(value =  "/transaction")
 @RestController
-public class TransactionController extends DatabaseRestfulController<Transaction> {
+public class TransactionController extends RepositoryRestfulController<Transaction> {
 	
 	private final Logger logger = LoggerFactory.getLogger(TransactionController.class);
-	
-	@Resource(name = "TransactionServiceImpl")
-	private DaoService<Transaction> transactionService;
-	
-	protected DaoService<Transaction> getDaoService() {
-		return transactionService;
+
+    @Inject
+    private TransactionMapper transactionRepository;
+
+	protected ResourceMapper<Transaction> getDaoService() {
+		return transactionRepository;
 	}
 
 	protected Class<Transaction> getResourceClass() {
@@ -52,7 +53,7 @@ public class TransactionController extends DatabaseRestfulController<Transaction
 				CsvMapper mapper = new CsvMapper();
 	        	List<Transaction> transactions = mapper.mapToTransactions(csvText);
 	        	for (Transaction transaction : transactions) {
-	        		transactionService.create(transaction);	
+                    transactionRepository.create(transaction);
 				}
 	        	
 			} catch (UnsupportedEncodingException e) {

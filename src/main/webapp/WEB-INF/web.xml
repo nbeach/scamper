@@ -7,8 +7,9 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/config/mvc-context.xml,
-			/WEB-INF/config/dao-context.xml,
+			/WEB-INF/config/mvc-context.xml
+			<!--/WEB-INF/config/dao-context.xml,-->
+            <!--/WEB-INF/config/persistence.xml-->
 		</param-value>
 	</context-param>
 	

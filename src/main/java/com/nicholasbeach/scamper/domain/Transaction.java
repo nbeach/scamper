@@ -1,13 +1,9 @@
 package com.nicholasbeach.scamper.domain;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-public class Transaction implements DatabaseRow, RestfulResource {
+public class Transaction implements RestfulResource {
 	
 	private Integer id;
 	private Integer accountId;
@@ -92,31 +88,6 @@ public class Transaction implements DatabaseRow, RestfulResource {
 				+ ", accountId=" + accountId + ", date=" + date
 				+ ", description=" + description + ", ammount=" + ammount
 				+ ", note=" + note + "]";
-	}
-	
-	@JsonIgnore
-	public PreparedStatement getInsertPreparedStatement(PreparedStatement ps) throws SQLException {
-		
-		ps.setInt(1, getReceiptId());
-		ps.setDate(2, new java.sql.Date(getDate().getTime()));
-		ps.setString(3, getDescription());
-		ps.setDouble(3, getAmmount().doubleValue());
-		ps.setString(4, getNote());
-		
-		return ps;
-	}
-	
-	@JsonIgnore
-	public PreparedStatement getUpdatePreparedStatement(PreparedStatement ps) throws SQLException {
-		
-		ps.setInt(1, getReceiptId());
-		ps.setDate(2, new java.sql.Date(getDate().getTime()));
-		ps.setString(3, getDescription());
-		ps.setDouble(3, getAmmount().doubleValue());
-		ps.setString(4, getNote());
-		ps.setInt(5, getId());
-		
-		return ps;
 	}
 
 }

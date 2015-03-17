@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nicholasbeach.scamper.persistence.TransactionMapper">
+
+    <sql id="columns">
+        transaction_id as id,
+        account_id as accountId,
+        receipt_id as receiptId,
+        date as date,
+        description as description,
+        amount as amount,
+        note as note
+    </sql>
+
+    <select id="retrieveAll" resultType="com.nicholasbeach.scamper.domain.Transaction">
+        SELECT
+        <include refid="columns" />
+        FROM transaction
+    </select>
+
+    <select id="retrieve" parameterType="int" resultType="com.nicholasbeach.scamper.domain.Transaction">
+        SELECT
+        <include refid="columns" />
+        FROM transaction
+        WHERE transaction_id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.nicholasbeach.scamper.domain.Transaction" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO transaction (account_id, receipt_id, date, description, amount, note) VALUES (#{accountId}, #{receiptId}, #{date}, #{description}, #{amount}, #{note})
+    </insert>
+
+    <update id="update" parameterType="com.nicholasbeach.scamper.domain.Transaction">
+        UPDATE transaction
+        SET
+            account_id = #{accountId},
+            receipt_id = #{receiptId},
+            date = #{date},
+            description = #{descripton},
+            amount = #{amount},
+            note = #{note}
+        WHERE transaction_id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM transaction WHERE transaction_id = #{id}
+    </delete>
+
+</mapper>

@@ -1,12 +1,10 @@
 package com.nicholasbeach.scamper.domain;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class Receipt implements DatabaseRow, RestfulResource {
+public class Receipt implements RestfulResource {
 	
 	private Integer id;
 	private String mimeType;
@@ -53,21 +51,6 @@ public class Receipt implements DatabaseRow, RestfulResource {
 	public String toString() {
 		return "Receipt [id=" + id + ", mimeType=" + mimeType + ", fileBytes="
 				+ Arrays.toString(fileBytes) + "]";
-	}
-	
-	@JsonIgnore
-	public PreparedStatement getInsertPreparedStatement(PreparedStatement ps) throws SQLException {
-		ps.setString(1, getMimeType());
-		ps.setBytes(2, getFileBytes());
-		return ps;
-	}
-	
-	@JsonIgnore
-	public PreparedStatement getUpdatePreparedStatement(PreparedStatement ps) throws SQLException {
-		ps.setString(1, getMimeType());
-		ps.setBytes(2, getFileBytes());
-		ps.setInt(3, getId());
-		return ps;
 	}
 	
 }

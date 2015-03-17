@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nicholasbeach.scamper.domain.RestfulResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -21,10 +22,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicholasbeach.scamper.domain.DatabaseRow;
-import com.nicholasbeach.scamper.service.DaoService;
+import com.nicholasbeach.scamper.persistence.ResourceMapper;
 
-public abstract class DatabaseRestfulController<T extends DatabaseRow> implements RestfulController<T> {
+public abstract class RepositoryRestfulController<T extends RestfulResource> implements RestfulController<T> {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -36,7 +36,7 @@ public abstract class DatabaseRestfulController<T extends DatabaseRow> implement
 	public ResponseEntity<Object> getResource(@PathVariable int id) {
 		logger.info("Get resource requested. id={}", id);
 		
-		T resource = getDaoService().get(id);
+		T resource = getDaoService().retrieve(id);
 		
 		if(resource != null) {
 			return new ResponseEntity<Object>(resource, HttpStatus.OK);
@@ -117,7 +117,7 @@ public abstract class DatabaseRestfulController<T extends DatabaseRow> implement
 		if(limit != null) { 	
 			results = getDaoService().getLimited(limit);
 		} else { 
-			results =  getDaoService().getAll(); 
+			results =  getDaoService().retrieveAll();
 		}
 		
 		//If there are results
@@ -154,6 +154,6 @@ public abstract class DatabaseRestfulController<T extends DatabaseRow> implement
 	}
 	
 	abstract protected Class<T> getResourceClass();
-	abstract protected DaoService<T> getDaoService();
+	abstract protected ResourceMapper<T> getDaoService();
 	
 }

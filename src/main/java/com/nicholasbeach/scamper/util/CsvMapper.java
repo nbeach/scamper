@@ -46,7 +46,7 @@ public class CsvMapper {
 	    if(header[0].equals("Date")) {
 	    	
 		    for (String[] row : csvRows) {
-		    	transactions.add(huntingtonCsvMapper(row));
+		    	transactions.add(mapHuntingtonTransactionCsv(row));
 		    	
 			}
 		    
@@ -56,7 +56,7 @@ public class CsvMapper {
 	}
 	
 	
-	private Transaction huntingtonCsvMapper(String[] row)
+	private Transaction mapHuntingtonTransactionCsv(String[] row)
     {
 		DateFormat dateFormat = new SimpleDateFormat("M/d/y");
     	Date date;
@@ -68,10 +68,10 @@ public class CsvMapper {
 			throw new RuntimeException(exception);
 		}
 		
-		BigDecimal ammount = new BigDecimal(row[4].replace(",", ""));
+		BigDecimal amount = new BigDecimal(row[4].replace(",", ""));
     	String description = WordUtils.capitalizeFully(row[3]);
     	
-		return new Transaction(date, description, ammount);
+		return new Transaction(date, description, amount);
     }
 
 

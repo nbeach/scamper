@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nicholasbeach.scamper.persistence.ReceiptMapper">
+
+    <sql id="columns">
+        receipt_id as id,
+        mime_type as mimeType,
+        file as file
+    </sql>
+
+    <select id="retrieveAll" resultType="com.nicholasbeach.scamper.domain.Receipt">
+        SELECT
+        <include refid="columns" />
+        FROM receipt
+    </select>
+
+    <select id="retrieve" parameterType="int" resultType="com.nicholasbeach.scamper.domain.Receipt">
+        SELECT
+        <include refid="columns" />
+        FROM receipt
+        WHERE receipt_id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.nicholasbeach.scamper.domain.Receipt" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO receipt (mime_type, file) VALUES (#{mimeType}, #{file})
+    </insert>
+
+    <update id="update" parameterType="com.nicholasbeach.scamper.domain.Receipt">
+        UPDATE receipt SET mime_type = #{mimeType}, file = #{file}  WHERE receipt_id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM receipt WHERE receipt_id = #{id}
+    </delete>
+
+</mapper>

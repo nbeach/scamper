@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nicholasbeach.scamper.persistence.AccountMapper">
+
+    <sql id="columns">
+        account_id as id,
+        name as "name"
+    </sql>
+
+    <select id="retrieveAll" resultType="com.nicholasbeach.scamper.domain.Account">
+        SELECT
+        <include refid="columns" />
+        FROM account
+    </select>
+
+    <select id="retrieve" parameterType="Integer" resultType="com.nicholasbeach.scamper.domain.Account">
+        SELECT
+        <include refid="columns" />
+        FROM account
+        WHERE account_id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.nicholasbeach.scamper.domain.Account" useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO account (name) VALUES (#{name})
+    </insert>
+
+    <update id="update" parameterType="com.nicholasbeach.scamper.domain.Account">
+      UPDATE account SET name = #{name} WHERE account_id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+      DELETE FROM account WHERE account_id = #{id}
+    </delete>
+
+</mapper>

@@ -1,11 +1,6 @@
 package com.nicholasbeach.scamper.domain;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-public class Account implements DatabaseRow, RestfulResource {
+public class Account implements RestfulResource {
 	
 	private Integer id;
 	private String name;
@@ -42,18 +37,5 @@ public class Account implements DatabaseRow, RestfulResource {
 		return "Account [id=" + id + ", name=" + name + "]";
 	}
 
-	@JsonIgnore
-	public PreparedStatement getInsertPreparedStatement(PreparedStatement ps) throws SQLException {
-		ps.setString(1, getName());
-		return ps;
-	}
-	
-	@JsonIgnore
-	public PreparedStatement getUpdatePreparedStatement(PreparedStatement ps) throws SQLException {
-		ps.setString(1, getName());
-		ps.setInt(2, getId());
-		return ps;
-	}
 
-	
 }

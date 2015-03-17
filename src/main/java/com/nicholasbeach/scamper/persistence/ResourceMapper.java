@@ -1,11 +1,11 @@
-package com.nicholasbeach.scamper.service;
+package com.nicholasbeach.scamper.persistence;
 
 import java.util.List;
 
-public interface DaoService<T> {
+public interface ResourceMapper<T> {
 
-	public T get(Integer id);
-	public List<T> getAll();
+	public T retrieve(Integer id);
+	public List<T> retrieveAll();
 	public List<T> getLimited(int limit);
 	public T create(T object);
 	public boolean update(T object);

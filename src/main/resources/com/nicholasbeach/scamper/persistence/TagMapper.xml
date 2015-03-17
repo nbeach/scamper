@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nicholasbeach.scamper.persistence.TagMapper">
+
+    <sql id="columns">
+        tag_id as id,
+        title as title
+    </sql>
+
+    <select id="retrieveAll" resultType="com.nicholasbeach.scamper.domain.Tag">
+        SELECT
+        <include refid="columns" />
+        FROM tag
+    </select>
+
+    <select id="retrieve" parameterType="int" resultType="com.nicholasbeach.scamper.domain.Tag">
+        SELECT
+        <include refid="columns" />
+        FROM tag
+        WHERE tag_id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.nicholasbeach.scamper.domain.Tag" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tag (title) VALUES (#{title})
+    </insert>
+
+    <update id="update" parameterType="com.nicholasbeach.scamper.domain.Tag">
+        UPDATE tag SET title = #{title} WHERE tag_id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM tag WHERE tag_id = #{id}
+    </delete>
+
+</mapper>

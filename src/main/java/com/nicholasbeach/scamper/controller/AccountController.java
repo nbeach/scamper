@@ -1,22 +1,24 @@
 package com.nicholasbeach.scamper.controller;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
+
+import com.nicholasbeach.scamper.persistence.AccountMapper;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nicholasbeach.scamper.domain.Account;
-import com.nicholasbeach.scamper.service.DaoService;
+import com.nicholasbeach.scamper.persistence.ResourceMapper;
 
 @RequestMapping(value =  "/account")
 @RestController
-public class AccountController extends DatabaseRestfulController<Account> {
+public class AccountController extends RepositoryRestfulController<Account> {
 	
-	@Resource(name = "AccountServiceImpl")
-	private DaoService<Account> accountService;
+    @Inject
+    private AccountMapper accountRepository;
 
-	protected DaoService<Account> getDaoService() {
-		return accountService;
+	protected ResourceMapper<Account> getDaoService() {
+		return accountRepository;
 	}
 	
 	protected Class<Account> getResourceClass() {

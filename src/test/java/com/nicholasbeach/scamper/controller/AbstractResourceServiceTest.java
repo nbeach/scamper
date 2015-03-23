@@ -87,11 +87,8 @@ public class AbstractResourceServiceTest {
 
     @Test
     public void create() {
-        when(mapper.create(resource)).thenReturn(resource);
-        RestfulResource result = service.create(resource);
+        service.create(resource);
         verify(mapper).create(resource);
-
-        Assert.assertSame(resource, result);
     }
 
     @Test

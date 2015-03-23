@@ -23,8 +23,8 @@ public abstract class AbstractResourceService<T extends RestfulResource> impleme
         return getMapper().retrieveUpTo(limit);
     }
 
-    public T create(T object) {
-        return getMapper().create(object);
+    public void create(T object) {
+        getMapper().create(object);
     }
 
     public boolean update(T object) {

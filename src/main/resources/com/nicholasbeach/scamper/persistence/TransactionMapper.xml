@@ -26,7 +26,7 @@
         WHERE transaction_id = #{id}
     </select>
 
-    <insert id="insert" parameterType="Transaction" useGeneratedKeys="true" keyProperty="id">
+    <insert id="create" parameterType="Transaction" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO transaction (account_id, receipt_id, date, description, amount, note) VALUES (#{accountId}, #{receiptId}, #{date}, #{description}, #{amount}, #{note})
     </insert>
 

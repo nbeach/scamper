@@ -164,7 +164,6 @@ public class AbstractRestfulControllerTest {
         String json = "Who cares";
 
         when(jsonMapper.readValue(json, RestfulResource.class)).thenReturn(resource);
-        when(service.create(resource)).thenReturn(resource);
 
         ResponseEntity<Object> result = controller.createResource(json);
 

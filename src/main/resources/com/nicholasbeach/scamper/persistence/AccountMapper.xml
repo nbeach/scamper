@@ -21,7 +21,7 @@
         WHERE account_id = #{id}
     </select>
 
-    <insert id="insert" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
+    <insert id="create" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
       INSERT INTO account (name) VALUES (#{name})
     </insert>
 

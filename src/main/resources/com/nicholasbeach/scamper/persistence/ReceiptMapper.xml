@@ -22,7 +22,7 @@
         WHERE receipt_id = #{id}
     </select>
 
-    <insert id="insert" parameterType="Receipt" useGeneratedKeys="true" keyProperty="id">
+    <insert id="create" parameterType="Receipt" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO receipt (mime_type, file) VALUES (#{mimeType}, #{file})
     </insert>
 

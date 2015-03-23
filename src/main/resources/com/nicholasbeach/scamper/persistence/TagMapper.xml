@@ -21,7 +21,7 @@
         WHERE tag_id = #{id}
     </select>
 
-    <insert id="insert" parameterType="Tag" useGeneratedKeys="true" keyProperty="id">
+    <insert id="create" parameterType="Tag" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tag (title) VALUES (#{title})
     </insert>
 

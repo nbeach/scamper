@@ -58,7 +58,7 @@ public abstract class AbstractRestfulController<T extends RestfulResource> imple
 		T resource = mapJsonToObject(json);
 		
 		if(resource != null) {
-			resource = getService().create(resource);
+			getService().create(resource);
 		} else {
 			return new ResponseEntity<Object>("Error mapping JSON to resource", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

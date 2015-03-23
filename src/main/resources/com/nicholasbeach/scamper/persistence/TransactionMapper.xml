@@ -13,24 +13,24 @@
         note as note
     </sql>
 
-    <select id="retrieveAll" resultType="com.nicholasbeach.scamper.domain.Transaction">
+    <select id="retrieveAll" resultType="Transaction">
         SELECT
         <include refid="columns" />
         FROM transaction
     </select>
 
-    <select id="retrieve" parameterType="int" resultType="com.nicholasbeach.scamper.domain.Transaction">
+    <select id="retrieve" parameterType="int" resultType="Transaction">
         SELECT
         <include refid="columns" />
         FROM transaction
         WHERE transaction_id = #{id}
     </select>
 
-    <insert id="insert" parameterType="com.nicholasbeach.scamper.domain.Transaction" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="Transaction" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO transaction (account_id, receipt_id, date, description, amount, note) VALUES (#{accountId}, #{receiptId}, #{date}, #{description}, #{amount}, #{note})
     </insert>
 
-    <update id="update" parameterType="com.nicholasbeach.scamper.domain.Transaction">
+    <update id="update" parameterType="Transaction">
         UPDATE transaction
         SET
             account_id = #{accountId},

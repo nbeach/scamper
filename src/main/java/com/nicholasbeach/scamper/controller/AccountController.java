@@ -2,27 +2,24 @@ package com.nicholasbeach.scamper.controller;
 
 import javax.inject.Inject;
 
-import com.nicholasbeach.scamper.persistence.AccountMapper;
-
+import com.nicholasbeach.scamper.service.AccountService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nicholasbeach.scamper.domain.Account;
-import com.nicholasbeach.scamper.persistence.ResourceMapper;
 
 @RequestMapping(value =  "/account")
 @RestController
-public class AccountController extends RepositoryRestfulController<Account> {
-	
-    @Inject
-    private AccountMapper accountRepository;
+public class AccountController extends AbstractRestfulController<Account> {
 
-	protected ResourceMapper<Account> getMapper() {
-		return accountRepository;
+    @Inject
+    private AccountService accountService;
+
+	protected AccountService getService() { return accountService;
 	}
-	
+
 	protected Class<Account> getResourceClass() {
 		return Account.class;
 	}
-	
+
 }

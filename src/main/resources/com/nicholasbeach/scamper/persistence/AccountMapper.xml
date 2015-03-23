@@ -8,24 +8,24 @@
         name as "name"
     </sql>
 
-    <select id="retrieveAll" resultType="com.nicholasbeach.scamper.domain.Account">
+    <select id="retrieveAll" resultType="Account">
         SELECT
         <include refid="columns" />
         FROM account
     </select>
 
-    <select id="retrieve" parameterType="Integer" resultType="com.nicholasbeach.scamper.domain.Account">
+    <select id="retrieve" parameterType="Integer" resultType="Account">
         SELECT
         <include refid="columns" />
         FROM account
         WHERE account_id = #{id}
     </select>
 
-    <insert id="insert" parameterType="com.nicholasbeach.scamper.domain.Account" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
       INSERT INTO account (name) VALUES (#{name})
     </insert>
 
-    <update id="update" parameterType="com.nicholasbeach.scamper.domain.Account">
+    <update id="update" parameterType="Account">
       UPDATE account SET name = #{name} WHERE account_id = #{id}
     </update>
 

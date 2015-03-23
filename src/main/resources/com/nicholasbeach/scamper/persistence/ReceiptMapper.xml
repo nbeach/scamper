@@ -9,24 +9,24 @@
         file as file
     </sql>
 
-    <select id="retrieveAll" resultType="com.nicholasbeach.scamper.domain.Receipt">
+    <select id="retrieveAll" resultType="Receipt">
         SELECT
         <include refid="columns" />
         FROM receipt
     </select>
 
-    <select id="retrieve" parameterType="int" resultType="com.nicholasbeach.scamper.domain.Receipt">
+    <select id="retrieve" parameterType="int" resultType="Receipt">
         SELECT
         <include refid="columns" />
         FROM receipt
         WHERE receipt_id = #{id}
     </select>
 
-    <insert id="insert" parameterType="com.nicholasbeach.scamper.domain.Receipt" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="Receipt" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO receipt (mime_type, file) VALUES (#{mimeType}, #{file})
     </insert>
 
-    <update id="update" parameterType="com.nicholasbeach.scamper.domain.Receipt">
+    <update id="update" parameterType="Receipt">
         UPDATE receipt SET mime_type = #{mimeType}, file = #{file}  WHERE receipt_id = #{id}
     </update>
 

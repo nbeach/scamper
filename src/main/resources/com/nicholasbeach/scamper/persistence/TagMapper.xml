@@ -8,24 +8,24 @@
         title as title
     </sql>
 
-    <select id="retrieveAll" resultType="com.nicholasbeach.scamper.domain.Tag">
+    <select id="retrieveAll" resultType="Tag">
         SELECT
         <include refid="columns" />
         FROM tag
     </select>
 
-    <select id="retrieve" parameterType="int" resultType="com.nicholasbeach.scamper.domain.Tag">
+    <select id="retrieve" parameterType="int" resultType="Tag">
         SELECT
         <include refid="columns" />
         FROM tag
         WHERE tag_id = #{id}
     </select>
 
-    <insert id="insert" parameterType="com.nicholasbeach.scamper.domain.Tag" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="Tag" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tag (title) VALUES (#{title})
     </insert>
 
-    <update id="update" parameterType="com.nicholasbeach.scamper.domain.Tag">
+    <update id="update" parameterType="Tag">
         UPDATE tag SET title = #{title} WHERE tag_id = #{id}
     </update>
 

@@ -7,10 +7,9 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/config/mvc-context.xml
-			<!--/WEB-INF/config/dao-context.xml,-->
-            <!--/WEB-INF/config/persistence.xml-->
-		</param-value>
+            /WEB-INF/config/spring.xml
+            /WEB-INF/config/mybatis.xml
+        </param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->

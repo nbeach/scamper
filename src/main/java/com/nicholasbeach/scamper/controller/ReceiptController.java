@@ -43,6 +43,7 @@ public class ReceiptController extends AbstractRestfulController<Receipt> {
 			try {
 				receipt = new Receipt(file.getContentType(), file.getBytes());
 				receiptService.create(receipt);
+                return new ResponseEntity<Object>(receipt, HttpStatus.OK);
 
 			} catch (IOException e) {
                 log.error("Upload failed because of IO exception");
@@ -55,7 +56,7 @@ public class ReceiptController extends AbstractRestfulController<Receipt> {
             return new ResponseEntity<Object>("Error: upload file is empty", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-		 return new ResponseEntity<Object>("Success", HttpStatus.OK);
+
 	}
 
 

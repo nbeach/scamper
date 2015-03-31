@@ -1,5 +1,7 @@
 package com.nicholasbeach.scamper.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,9 +10,10 @@ public class Transaction implements RestfulResource {
 	private Integer id;
 	private Integer accountId;
 	private Integer receiptId;
-	private Date date;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="EST")
+    private Date date;
 	private String description;
-	private BigDecimal ammount;
+	private BigDecimal amount;
 	private String note;
 	
 	
@@ -19,11 +22,11 @@ public class Transaction implements RestfulResource {
 		super();
 	}
 
-	public Transaction(Date date, String description, BigDecimal ammount) {
+	public Transaction(Date date, String description, BigDecimal amount) {
 		super();
 		this.date = date;
 		this.description = description;
-		this.ammount = ammount;
+		this.amount = amount;
 	}
 	
 	public Integer getId() {
@@ -66,12 +69,12 @@ public class Transaction implements RestfulResource {
 		this.description = description;
 	}
 	
-	public BigDecimal getAmmount() {
-		return ammount;
+	public BigDecimal getAmount() {
+		return amount;
 	}
 	
-	public void setAmmount(BigDecimal ammount) {
-		this.ammount = ammount;
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 	
 	public String getNote() {
@@ -86,7 +89,7 @@ public class Transaction implements RestfulResource {
 	public String toString() {
 		return "Transaction [id=" + id + ", receiptId=" + receiptId
 				+ ", accountId=" + accountId + ", date=" + date
-				+ ", description=" + description + ", ammount=" + ammount
+				+ ", description=" + description + ", amount=" + amount
 				+ ", note=" + note + "]";
 	}
 

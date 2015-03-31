@@ -27,7 +27,7 @@ public class ReceiptController extends AbstractRestfulController<Receipt> {
 		return Receipt.class;
 	}
 	
-	@RequestMapping(value = "/{receiptId}.**", method = RequestMethod.GET)
+	@RequestMapping(value = "/{receiptId}/image.**", method = RequestMethod.GET)
 	public byte[] getImageFile(@PathVariable Integer receiptId) {
 		Receipt receipt = receiptService.retrieve(receiptId);
 	

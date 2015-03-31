@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class TransactionService extends AbstractResourceService<Transaction> {
                 reader.close();
 
             } catch (Exception exception) {
-                log.error("An error occured while parsing the CSV data. Error = {}", exception.getMessage());
+                log.error("An error occurred while parsing the CSV data. Error = {}", exception.getMessage());
                 throw new RuntimeException(exception);
             }
 
@@ -95,7 +96,7 @@ public class TransactionService extends AbstractResourceService<Transaction> {
 		}
 		
 		BigDecimal amount = new BigDecimal(row[4].replace(",", ""));
-    	String description = WordUtils.capitalizeFully(row[3]);
+    	String description = WordUtils.capitalizeFully(row[2]);
     	
 		return new Transaction(date, description, amount);
     }

@@ -11,6 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -54,7 +55,7 @@ public class AbstractResourceServiceTest {
             }
         };
 
-        resourceList = new ArrayList<RestfulResource>();
+        resourceList = Arrays.asList(resource, resource);
 
     }
 
@@ -89,6 +90,12 @@ public class AbstractResourceServiceTest {
     public void create() {
         service.create(resource);
         verify(mapper).create(resource);
+    }
+
+    @Test
+    public void createList() {
+        service.create(resourceList);
+        verify(mapper, times(2)).create(resource);
     }
 
     @Test

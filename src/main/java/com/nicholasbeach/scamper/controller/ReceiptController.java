@@ -8,9 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.nicholasbeach.scamper.domain.Receipt;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.List;
 
 @RequestMapping(value =  "/receipt")
 @RestController
@@ -31,39 +30,31 @@ public class ReceiptController extends AbstractRestfulController<Receipt> {
 	public byte[] getImageFile(@PathVariable Integer receiptId) {
 		Receipt receipt = receiptService.retrieve(receiptId);
 	
-		return receipt.getFileBytes();
+		return receipt.getFile();
 	}
-	
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file) {
 
-		 if (!file.isEmpty()) {
-            log.info("File uploaded: {}", file.getOriginalFilename());
-        	Receipt receipt;
-			try {
-				receipt = new Receipt(file.getContentType(), file.getBytes());
-				receiptService.create(receipt);
-                return new ResponseEntity<Object>(receipt, HttpStatus.OK);
 
-			} catch (IOException e) {
-                log.error("Upload failed because of IO exception");
-				e.printStackTrace();
-                return new ResponseEntity<Object>("Error: IO exception", HttpStatus.INTERNAL_SERVER_ERROR);
-			}
+    @Override
+    public ResponseEntity<Object> retrieveAll(@RequestParam(value = "limit", required = false) Integer limit) {
+        log.info("Get collection requested. limit={}", limit);
+        List<Receipt> results = null;
 
+        //Call the appropriate function based in the limit param value
+        if(limit == null) {
+            results =  getService().retrieveAll();
+        } else if(limit > 0) {
+            results = getService().retrieveUpTo(limit);
         } else {
-        	log.error("Upload failed because the file was empty.");
-            return new ResponseEntity<Object>("Error: upload file is empty", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<Object>("Error: Limit value must be greater than zero", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 
-	}
+        for (Receipt receipt : results) {
+            receipt.setFile(null);
+        }
 
+        return new ResponseEntity<Object>(results, HttpStatus.OK);
 
-    //Changing request mapping so that the file upload method can use this method's default request mapping
-    @Override
-    @RequestMapping(value = "/null", method = RequestMethod.POST)
-    public ResponseEntity<Object> createResource(@RequestBody String json) {
-        return null;
     }
+
 }

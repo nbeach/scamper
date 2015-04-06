@@ -1,11 +1,14 @@
 package com.nicholasbeach.scamper.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.nicholasbeach.scamper.domain.RestfulResource;
 import com.nicholasbeach.scamper.service.AbstractResourceService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.junit.Assert;
@@ -61,6 +64,8 @@ public class AbstractRestfulControllerTest {
         };
 
         resourceList = new ArrayList<RestfulResource>();
+        resourceList.add(resource);
+        resourceList.add(resource);
 
     }
 
@@ -68,7 +73,7 @@ public class AbstractRestfulControllerTest {
     public void getCollectionNoLimit() {
         when(service.retrieveAll()).thenReturn(resourceList);
 
-        ResponseEntity<Object> result = controller.getCollection(null);
+        ResponseEntity<Object> result = controller.retrieveAll(null);
 
         verify(service).retrieveAll();
         Assert.assertSame(resourceList, result.getBody());
@@ -79,7 +84,7 @@ public class AbstractRestfulControllerTest {
     public void getCollectionWithLimit() {
         when(service.retrieveUpTo(10)).thenReturn(resourceList);
 
-        ResponseEntity<Object> result = controller.getCollection(10);
+        ResponseEntity<Object> result = controller.retrieveAll(10);
 
         verify(service).retrieveUpTo(10);
         Assert.assertSame(resourceList, result.getBody());
@@ -88,7 +93,7 @@ public class AbstractRestfulControllerTest {
 
     @Test
     public void getCollectionWithNegativeLimit() {
-        ResponseEntity<Object> result = controller.getCollection(-5);
+        ResponseEntity<Object> result = controller.retrieveAll(-5);
 
         Assert.assertEquals(String.class, result.getBody().getClass());
         Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
@@ -96,7 +101,7 @@ public class AbstractRestfulControllerTest {
 
     @Test
     public void getCollectionWithZeroLimit() {
-        ResponseEntity<Object> result = controller.getCollection(0);
+        ResponseEntity<Object> result = controller.retrieveAll(0);
 
         Assert.assertEquals(String.class, result.getBody().getClass());
         Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
@@ -106,7 +111,7 @@ public class AbstractRestfulControllerTest {
     public void getResourceExists() {
         when(service.retrieve(5)).thenReturn(resource);
 
-        ResponseEntity<Object> result = controller.getResource(5);
+        ResponseEntity<Object> result = controller.retrieve(5);
 
         verify(service).retrieve(5);
         Assert.assertSame(resource, result.getBody());
@@ -117,7 +122,7 @@ public class AbstractRestfulControllerTest {
     public void getResourceDoesNotExist() {
         when(service.retrieve(5)).thenReturn(null);
 
-        ResponseEntity<Object> result = controller.getResource(5);
+        ResponseEntity<Object> result = controller.retrieve(5);
 
         verify(service).retrieve(5);
         Assert.assertEquals(String.class, result.getBody().getClass());
@@ -128,7 +133,7 @@ public class AbstractRestfulControllerTest {
     public void deleteResourceExists() {
         when(service.delete(5)).thenReturn(true);
 
-        ResponseEntity<Object> result = controller.deleteResource(5);
+        ResponseEntity<Object> result = controller.delete(5);
 
         verify(service).delete(5);
         Assert.assertEquals(null, result.getBody());
@@ -139,7 +144,7 @@ public class AbstractRestfulControllerTest {
     public void deleteResourceDoesNotExist() {
         when(service.delete(5)).thenReturn(false);
 
-        ResponseEntity<Object> result = controller.deleteResource(5);
+        ResponseEntity<Object> result = controller.delete(5);
 
         verify(service).delete(5);
         Assert.assertEquals(String.class, result.getBody().getClass());
@@ -147,43 +152,36 @@ public class AbstractRestfulControllerTest {
     }
 
     @Test
-    public void createResourceInvalidJson() throws IOException {
-        String json = "who cares";
-
-        when(jsonMapper.readValue(json, RestfulResource.class)).thenReturn(null);
-
-        ResponseEntity<Object> result = controller.createResource(json);
-
-        verify(jsonMapper).readValue(json, RestfulResource.class);
-        Assert.assertEquals(String.class, result.getBody().getClass());
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
-    }
-
-    @Test
-    public void createResourceSuccess() throws IOException {
-        String json = "Who cares";
+    public void createResource() throws IOException {
+        String json = "{single object}";
 
         when(jsonMapper.readValue(json, RestfulResource.class)).thenReturn(resource);
 
-        ResponseEntity<Object> result = controller.createResource(json);
+        ResponseEntity<Object> result = controller.create(json);
 
         verify(jsonMapper).readValue(json, RestfulResource.class);
-        verify(service).create(resource);
+        verify(service).create(Matchers.anyListOf(RestfulResource.class));
         Assert.assertEquals(resource, result.getBody());
         Assert.assertEquals(HttpStatus.CREATED, result.getStatusCode());
    }
 
     @Test
-    public void updateResourceInvalidJson() throws IOException {
-        String json = "who cares";
+    public void createCollection() throws IOException {
+        String json = "[array of objects] ";
 
-        when(jsonMapper.readValue(json, RestfulResource.class)).thenReturn(null);
+        ObjectMapper mapper = new ObjectMapper();
 
-        ResponseEntity<Object> result = controller.updateResource(5, json);
+        when(jsonMapper.getTypeFactory()).thenReturn(mapper.getTypeFactory());
+        when(jsonMapper.readValue(Matchers.same(json), Matchers.any(CollectionType.class))).thenReturn(resourceList);
 
-        verify(jsonMapper).readValue(json, RestfulResource.class);
-        Assert.assertEquals(String.class, result.getBody().getClass());
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
+        ResponseEntity<Object> result = controller.create(json);
+
+        verify(jsonMapper).getTypeFactory();
+        verify(jsonMapper).readValue(Matchers.same(json), Matchers.any(CollectionType.class));
+        verify(service).create(Matchers.anyListOf(RestfulResource.class));
+
+        Assert.assertEquals(resource,  ((List<RestfulResource>) result.getBody()).get(0));
+        Assert.assertEquals(HttpStatus.CREATED, result.getStatusCode());
     }
 
     @Test
@@ -193,7 +191,7 @@ public class AbstractRestfulControllerTest {
         when(jsonMapper.readValue(json, RestfulResource.class)).thenReturn(resource);
         when(service.update(resource)).thenReturn(false);
 
-        ResponseEntity<Object> result = controller.updateResource(5, json);
+        ResponseEntity<Object> result = controller.update(5, json);
 
         verify(jsonMapper).readValue(json, RestfulResource.class);
         verify(service).update(resource);

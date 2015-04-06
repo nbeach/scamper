@@ -27,6 +27,12 @@ public abstract class AbstractResourceService<T extends RestfulResource> impleme
         getMapper().create(object);
     }
 
+    public void create(List<T> objects) {
+        for(T object : objects) {
+            getMapper().create(object);
+        }
+    }
+
     public boolean update(T object) {
         return getMapper().update(object);
     }

@@ -13,6 +13,13 @@
         note as note
     </sql>
 
+    <select id="retrieveInDateRange" resultType="Transaction">
+        SELECT
+        <include refid="columns" />
+        FROM transaction
+        WHERE date BETWEEN #{beginDate} AND #{endDate}
+    </select>
+
     <select id="retrieveAll" resultType="Transaction">
         SELECT
         <include refid="columns" />

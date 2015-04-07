@@ -5,6 +5,8 @@ import com.nicholasbeach.scamper.domain.Transaction;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class TransactionService extends AbstractResourceService<Transaction> {
@@ -20,6 +22,11 @@ public class TransactionService extends AbstractResourceService<Transaction> {
     @Override
     protected TransactionMapper getMapper() {
         return transactionMapper;
+    }
+
+
+    public List<Transaction> retrieveInDateRange(Date beginDate, Date endDate) {
+        return transactionMapper.retrieveInDateRange(beginDate, endDate);
     }
 
 }

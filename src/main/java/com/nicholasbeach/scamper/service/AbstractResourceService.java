@@ -19,10 +19,6 @@ public abstract class AbstractResourceService<T extends RestfulResource> impleme
         return getMapper().retrieveAll();
     }
 
-    public List<T> retrieveUpTo(int limit) {
-        return getMapper().retrieveUpTo(limit);
-    }
-
     public void create(T object) {
         getMapper().create(object);
     }

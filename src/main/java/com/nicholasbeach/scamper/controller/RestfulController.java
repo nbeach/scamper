@@ -9,6 +9,6 @@ public interface RestfulController<T> {
 	public ResponseEntity<Object> update(int id, String json);
 	public ResponseEntity<Object> delete(int id);
 	
-	public ResponseEntity<Object> retrieveAll(Integer limit);
+	public ResponseEntity<Object> retrieveAll();
 
 }

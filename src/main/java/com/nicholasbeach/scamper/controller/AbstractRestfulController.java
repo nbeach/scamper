@@ -128,20 +128,10 @@ public abstract class AbstractRestfulController<T extends RestfulResource> imple
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Object> retrieveAll(@RequestParam(value = "limit", required = false) Integer limit) {
-		log.info("Get collection requested. limit={}", limit);
-		List<T> results = null;
-		
-		//Call the appropriate function based in the limit param value
-		if(limit == null) {
-            results =  getService().retrieveAll();
-		} else if(limit > 0) {
-            results = getService().retrieveUpTo(limit);
-		} else {
-            return new ResponseEntity<Object>("Error: Limit value must be greater than zero", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-		
-	    return new ResponseEntity<Object>(results, HttpStatus.OK);
+	public ResponseEntity<Object> retrieveAll() {
+		log.info("Get collection requested");
+
+	    return new ResponseEntity<Object>(getService().retrieveAll(), HttpStatus.OK);
 	}
 
 	private T mapJsonToResource(String json) throws ResourceJsonMappingException {

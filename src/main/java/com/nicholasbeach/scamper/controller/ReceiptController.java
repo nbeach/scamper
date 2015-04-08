@@ -35,19 +35,9 @@ public class ReceiptController extends AbstractRestfulController<Receipt> {
 
 
     @Override
-    public ResponseEntity<Object> retrieveAll(@RequestParam(value = "limit", required = false) Integer limit) {
-        log.info("Get collection requested. limit={}", limit);
-        List<Receipt> results = null;
-
-        //Call the appropriate function based in the limit param value
-        if(limit == null) {
-            results =  getService().retrieveAll();
-        } else if(limit > 0) {
-            results = getService().retrieveUpTo(limit);
-        } else {
-            return new ResponseEntity<Object>("Error: Limit value must be greater than zero", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+    public ResponseEntity<Object> retrieveAll() {
+        log.info("Get collection requested");
+        List<Receipt> results = getService().retrieveAll();
 
         for (Receipt receipt : results) {
             receipt.setFile(null);

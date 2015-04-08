@@ -70,41 +70,14 @@ public class AbstractRestfulControllerTest {
     }
 
     @Test
-    public void getCollectionNoLimit() {
+    public void getCollection() {
         when(service.retrieveAll()).thenReturn(resourceList);
 
-        ResponseEntity<Object> result = controller.retrieveAll(null);
+        ResponseEntity<Object> result = controller.retrieveAll();
 
         verify(service).retrieveAll();
         Assert.assertSame(resourceList, result.getBody());
         Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
-    }
-
-    @Test
-    public void getCollectionWithLimit() {
-        when(service.retrieveUpTo(10)).thenReturn(resourceList);
-
-        ResponseEntity<Object> result = controller.retrieveAll(10);
-
-        verify(service).retrieveUpTo(10);
-        Assert.assertSame(resourceList, result.getBody());
-        Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
-    }
-
-    @Test
-    public void getCollectionWithNegativeLimit() {
-        ResponseEntity<Object> result = controller.retrieveAll(-5);
-
-        Assert.assertEquals(String.class, result.getBody().getClass());
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
-    }
-
-    @Test
-    public void getCollectionWithZeroLimit() {
-        ResponseEntity<Object> result = controller.retrieveAll(0);
-
-        Assert.assertEquals(String.class, result.getBody().getClass());
-        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
     }
 
     @Test

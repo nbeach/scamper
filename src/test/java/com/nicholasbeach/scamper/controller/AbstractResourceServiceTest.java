@@ -78,15 +78,6 @@ public class AbstractResourceServiceTest {
     }
 
     @Test
-    public void retrieveUpTo() {
-        when(mapper.retrieveUpTo(5)).thenReturn(resourceList);
-        List<RestfulResource> result = service.retrieveUpTo(5);
-        verify(mapper).retrieveUpTo(5);
-
-        Assert.assertSame(resourceList, result);
-    }
-
-    @Test
     public void create() {
         service.create(resource);
         verify(mapper).create(resource);

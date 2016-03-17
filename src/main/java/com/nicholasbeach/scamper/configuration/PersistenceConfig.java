@@ -10,7 +10,7 @@ import org.springframework.context.annotation.*;
 import javax.sql.DataSource;
 
 @Configuration
-@ConfigurationProperties(locations = {"classpath:scamper.properties"}, prefix = "database")
+@ConfigurationProperties(prefix = "database")
 @MapperScan(basePackages = "com.nicholasbeach.scamper.persistence")
 public class PersistenceConfig {
 

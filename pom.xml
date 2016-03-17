@@ -33,10 +33,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+            <scope>provided</scope> <!-- Needed to run under tomcat. Comment out to start spring boot normally -->
         </dependency>
 
-        <!-- Needed to stop Tomcat from complaining its already loaded -->
+        <!-- Needed to run under Tomcat. Comment out to start spring boot normally -->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-el</artifactId>
@@ -66,6 +66,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>4.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -80,40 +86,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>4.0</version>
                 <configuration>
-                    <locations>
-                        <location>com.nicholasbeach.scamper.sql</location>
-                    </locations>
-                    <url>jdbc:mysql://localhost:3306/scamper</url>
-                    <user>scamper</user>
-                    <password>p@ssw0rd</password>
+                    <configFile>src/main/resources/scamper.properties</configFile>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.h2database</groupId>
-                        <artifactId>h2</artifactId>
-                        <version>1.4.191</version>
-                    </dependency>
-                </dependencies>
             </plugin>
-
-            <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>properties-maven-plugin</artifactId>-->
-                <!--<version>1.0.0</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>flyway</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>read-project-properties</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<files>-->
-                                <!--<file>src/main/java/resources/scamper.properties</file>-->
-                            <!--</files>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
 
         </plugins>
     </build>

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -62,7 +61,7 @@ public abstract class AbstractRestfulController<T extends RestfulResource> imple
                 resources = mapJsonToCollection(json);
             } else {
                 resources = new ArrayList<T>();
-                resources.add( mapJsonToResource(json));
+                resources.add(mapJsonToResource(json));
             }
         } catch(ResourceJsonMappingException exception) {
             return new ResponseEntity<Object>("Error mapping JSON to resource", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -129,7 +128,7 @@ public abstract class AbstractRestfulController<T extends RestfulResource> imple
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> retrieveAll() {
-		log.info("Get collection requested");
+		//log.info("Get collection requested");
 
 	    return new ResponseEntity<Object>(getService().retrieveAll(), HttpStatus.OK);
 	}
@@ -139,7 +138,7 @@ public abstract class AbstractRestfulController<T extends RestfulResource> imple
 		try {
 			return jsonMapper.readValue(json, getResourceClass());
 		} catch (Exception exception) {
-			log.error("An error occurred while mapping JSON to resource. Error = {}", exception.getMessage());
+			log.error("An error occurred while mapping JSON to resource.s Error = {}", exception.getMessage());
 			throw new ResourceJsonMappingException();
 		}
 
@@ -159,5 +158,4 @@ public abstract class AbstractRestfulController<T extends RestfulResource> imple
 	
 	abstract protected Class<T> getResourceClass();
 	abstract protected AbstractResourceService<T> getService();
-	
 }

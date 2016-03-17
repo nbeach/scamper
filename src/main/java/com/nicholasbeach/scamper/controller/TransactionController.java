@@ -1,8 +1,7 @@
 package com.nicholasbeach.scamper.controller;
 
-import javax.inject.Inject;
-
 import com.nicholasbeach.scamper.service.TransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,8 @@ import java.util.Date;
 @RestController
 public class TransactionController extends AbstractRestfulController<Transaction> {
 
-    @Inject TransactionService transactionService;
+    @Autowired
+    TransactionService transactionService;
 
 	protected TransactionService getService() {
 		return transactionService;
@@ -33,7 +33,5 @@ public class TransactionController extends AbstractRestfulController<Transaction
         return new ResponseEntity<Object>(transactionService.retrieveInDateRange(beginDate, endDate), HttpStatus.OK);
 
     }
-
-
 
 }

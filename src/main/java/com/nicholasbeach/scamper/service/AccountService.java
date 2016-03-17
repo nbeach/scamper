@@ -1,16 +1,15 @@
 package com.nicholasbeach.scamper.service;
 
 import com.nicholasbeach.scamper.domain.Account;
-import com.nicholasbeach.scamper.persistence.AccountMapper;
+import com.nicholasbeach.scamper.persistence.AccountDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
 
 @Service
 public class AccountService extends AbstractResourceService<Account> {
 
-    @Inject
-    private AccountMapper accountMapper;
+    @Autowired
+    private AccountDao accountDao;
 
     @Override
     protected Class<Account> getResourceClass() {
@@ -18,7 +17,7 @@ public class AccountService extends AbstractResourceService<Account> {
     }
 
     @Override
-    protected AccountMapper getMapper() {
-        return accountMapper;
+    protected AccountDao getDao() {
+        return accountDao;
     }
 }

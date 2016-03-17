@@ -2,7 +2,6 @@ package com.nicholasbeach.scamper.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.nicholasbeach.scamper.domain.RestfulResource;
 import com.nicholasbeach.scamper.service.AbstractResourceService;
 import org.junit.Before;
@@ -19,10 +18,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AbstractRestfulControllerTest {
+public class RestfulControllerTest {
 
     @Mock
     AbstractResourceService<RestfulResource> service;
@@ -77,7 +77,7 @@ public class AbstractRestfulControllerTest {
 
         verify(service).retrieveAll();
         Assert.assertSame(resourceList, result.getBody());
-        Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class AbstractRestfulControllerTest {
 
         verify(service).retrieve(5);
         Assert.assertSame(resource, result.getBody());
-        Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
@@ -98,8 +98,8 @@ public class AbstractRestfulControllerTest {
         ResponseEntity<Object> result = controller.retrieve(5);
 
         verify(service).retrieve(5);
-        Assert.assertEquals(String.class, result.getBody().getClass());
-        Assert.assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+        assertEquals(String.class, result.getBody().getClass());
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     }
 
     @Test
@@ -109,8 +109,8 @@ public class AbstractRestfulControllerTest {
         ResponseEntity<Object> result = controller.delete(5);
 
         verify(service).delete(5);
-        Assert.assertEquals(null, result.getBody());
-        Assert.assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+        assertEquals(null, result.getBody());
+        assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
     }
 
     @Test
@@ -120,8 +120,8 @@ public class AbstractRestfulControllerTest {
         ResponseEntity<Object> result = controller.delete(5);
 
         verify(service).delete(5);
-        Assert.assertEquals(String.class, result.getBody().getClass());
-        Assert.assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+        assertEquals(String.class, result.getBody().getClass());
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     }
 
     @Test
@@ -134,8 +134,8 @@ public class AbstractRestfulControllerTest {
 
         verify(jsonMapper).readValue(json, RestfulResource.class);
         verify(service).create(Matchers.anyListOf(RestfulResource.class));
-        Assert.assertEquals(resource, result.getBody());
-        Assert.assertEquals(HttpStatus.CREATED, result.getStatusCode());
+        assertEquals(resource, result.getBody());
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
    }
 
     @Test
@@ -153,8 +153,8 @@ public class AbstractRestfulControllerTest {
         verify(jsonMapper).readValue(Matchers.same(json), Matchers.any(CollectionType.class));
         verify(service).create(Matchers.anyListOf(RestfulResource.class));
 
-        Assert.assertEquals(resource,  ((List<RestfulResource>) result.getBody()).get(0));
-        Assert.assertEquals(HttpStatus.CREATED, result.getStatusCode());
+        assertEquals(resource, ((List<RestfulResource>) result.getBody()).get(0));
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
     }
 
     @Test
@@ -168,7 +168,7 @@ public class AbstractRestfulControllerTest {
 
         verify(jsonMapper).readValue(json, RestfulResource.class);
         verify(service).update(resource);
-        Assert.assertEquals(String.class, result.getBody().getClass());
-        Assert.assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+        assertEquals(String.class, result.getBody().getClass());
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     }
 }

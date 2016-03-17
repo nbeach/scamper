@@ -1,7 +1,7 @@
 package com.nicholasbeach.scamper.service;
 
 import com.nicholasbeach.scamper.domain.RestfulResource;
-import com.nicholasbeach.scamper.persistence.ResourceMapper;
+import com.nicholasbeach.scamper.persistence.ResourceDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,32 +12,32 @@ public abstract class AbstractResourceService<T extends RestfulResource> impleme
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public T retrieve(Integer id) {
-        return getMapper().retrieve(id);
+        return getDao().retrieve(id);
     }
 
     public List<T> retrieveAll() {
-        return getMapper().retrieveAll();
+        return getDao().retrieveAll();
     }
 
     public void create(T object) {
-        getMapper().create(object);
+        getDao().create(object);
     }
 
     public void create(List<T> objects) {
         for(T object : objects) {
-            getMapper().create(object);
+            getDao().create(object);
         }
     }
 
     public boolean update(T object) {
-        return getMapper().update(object);
+        return getDao().update(object);
     }
 
     public boolean delete(Integer id) {
-        return getMapper().delete(id);
+        return getDao().delete(id);
     }
 
     abstract protected Class<T> getResourceClass();
-    abstract protected ResourceMapper<T> getMapper();
+    abstract protected ResourceDao<T> getDao();
 
 }

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Date;
 import java.util.List;
 
-public interface TransactionMapper extends ResourceMapper<Transaction> {
+public interface TransactionDao extends ResourceDao<Transaction> {
 
-    public List<Transaction> retrieveInDateRange(@Param("beginDate") Date beginDate, @Param("endDate") Date endDate);
+    List<Transaction> retrieveInDateRange(@Param("beginDate") Date beginDate, @Param("endDate") Date endDate);
 }

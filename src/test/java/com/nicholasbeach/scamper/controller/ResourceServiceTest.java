@@ -1,26 +1,25 @@
 package com.nicholasbeach.scamper.controller;
 
 import com.nicholasbeach.scamper.domain.RestfulResource;
-import com.nicholasbeach.scamper.persistence.ResourceMapper;
+import com.nicholasbeach.scamper.persistence.ResourceDao;
 import com.nicholasbeach.scamper.service.AbstractResourceService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.junit.Assert;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AbstractResourceServiceTest {
+public class ResourceServiceTest {
 
     @Mock
-    ResourceMapper<RestfulResource> mapper;
+    ResourceDao<RestfulResource> mapper;
 
     AbstractResourceService<RestfulResource> service;
     RestfulResource resource;
@@ -37,7 +36,7 @@ public class AbstractResourceServiceTest {
             }
 
             @Override
-            protected ResourceMapper<RestfulResource> getMapper() {
+            protected ResourceDao<RestfulResource> getDao() {
                 return mapper;
             }
         };
@@ -65,7 +64,7 @@ public class AbstractResourceServiceTest {
         RestfulResource result = service.retrieve(5);
         verify(mapper).retrieve(5);
 
-        Assert.assertSame(resource, result);
+        assertSame(resource, result);
     }
 
     @Test
@@ -74,7 +73,7 @@ public class AbstractResourceServiceTest {
         List<RestfulResource> result = service.retrieveAll();
         verify(mapper).retrieveAll();
 
-        Assert.assertSame(resourceList, result);
+        assertSame(resourceList, result);
     }
 
     @Test
@@ -95,7 +94,7 @@ public class AbstractResourceServiceTest {
         Boolean result = service.update(resource);
         verify(mapper).update(resource);
 
-        Assert.assertSame(true, result);
+        assertSame(true, result);
     }
 
     @Test
@@ -104,7 +103,7 @@ public class AbstractResourceServiceTest {
         Boolean result = service.delete(5);
         verify(mapper).delete(5);
 
-        Assert.assertSame(true, result);
+        assertSame(true, result);
     }
 
 }

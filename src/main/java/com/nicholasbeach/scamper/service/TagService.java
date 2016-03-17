@@ -1,16 +1,15 @@
 package com.nicholasbeach.scamper.service;
 
 import com.nicholasbeach.scamper.domain.Tag;
-import com.nicholasbeach.scamper.persistence.TagMapper;
+import com.nicholasbeach.scamper.persistence.TagDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
 
 @Service
 public class TagService extends AbstractResourceService<Tag> {
 
-    @Inject
-    private TagMapper tagMapper;
+    @Autowired
+    private TagDao tagDao;
 
     @Override
     protected Class<Tag> getResourceClass() {
@@ -18,7 +17,7 @@ public class TagService extends AbstractResourceService<Tag> {
     }
 
     @Override
-    protected TagMapper getMapper() {
-        return tagMapper;
+    protected TagDao getDao() {
+        return tagDao;
     }
 }

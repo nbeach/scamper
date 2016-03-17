@@ -1,16 +1,15 @@
 package com.nicholasbeach.scamper.service;
 
 import com.nicholasbeach.scamper.domain.Receipt;
-import com.nicholasbeach.scamper.persistence.ReceiptMapper;
+import com.nicholasbeach.scamper.persistence.ReceiptDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
 
 @Service
 public class ReceiptService extends AbstractResourceService<Receipt> {
 
-    @Inject
-    private ReceiptMapper receiptMapper;
+    @Autowired
+    private ReceiptDao receiptDao;
 
     @Override
     protected Class<Receipt> getResourceClass() {
@@ -18,7 +17,7 @@ public class ReceiptService extends AbstractResourceService<Receipt> {
     }
 
     @Override
-    protected ReceiptMapper getMapper() {
-        return receiptMapper;
+    protected ReceiptDao getDao() {
+        return receiptDao;
     }
 }

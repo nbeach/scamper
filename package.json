@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "webpack",
+    "build:live": "webpack --watch --config webpack.dev.js",
+    "test": "karma start",
+    "test:live": "karma start --auto-watch --no-single-run"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.5.1",
+    "babel-core": "^5.0.0",
+    "babel-loader": "^5.3.2",
+    "imports-loader": "^0.6.5",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.14",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.7.0",
+    "phantomjs-prebuilt": "^2.1.1",
+    "webpack": "^1.12.2"
+  },
+  "dependencies": {
+    "angular": "^1.5.1",
+    "angular-bootstrap": "^0.12.2",
+    "angular-route": "^1.5.1",
+    "bootstrap": "^3.3.6",
+    "eonasdan-bootstrap-datetimepicker": "^4.15.35",
+    "jquery": "^2.2.1",
+    "moment": "^2.12.0",
+    "papaparse": "^4.1.2",
+    "restangular": "^1.5.2",
+    "objectTable": "https://github.com/nbeach/object-table.git"
+  }
+}

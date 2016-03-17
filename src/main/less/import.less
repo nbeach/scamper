@@ -1,0 +1,58 @@
+.import .file-drop {
+  min-height: 300px;
+  position: relative;
+}
+
+.import .file-drop-instructions {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 50%;
+  height: 20px;
+  margin: auto;
+}
+
+.import .dropped-image {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+
+  max-height: 168px;
+  max-width: 168px;
+
+  box-shadow: 1px 1px 1px #777;
+}
+
+.import .dropped-csv {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+
+  max-height: 168px;
+  max-width: 168px;
+
+  text-shadow: 1px 1px 1px #777;
+  color: #fefefe;
+  font-size: 150px;
+  padding-left:6px;
+}
+
+
+.import .dropped-item-container {
+  float: left;
+  position: relative;
+  height:168px;
+  width: 168px;
+  margin: 5px;
+}
+
+.import .dropped-item-container > .status-container {
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+
+  font-size: 24px;
+  transform: translateY(50%) translateX(50%);
+}

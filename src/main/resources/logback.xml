@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <logger name="com.nicholasbeach.scamper" level="INFO"/>
+
+    <!--<logger name="org.springframework.web" level="ERROR"/>-->
+    <!--<logger name="org.springframework.core" level="ERROR"/>-->
+    <!--<logger name="org.springframework.beans" level="ERROR"/>-->
+    <!--<logger name="org.springframework.context" level="ERROR"/>-->
+    
+</configuration>

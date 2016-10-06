@@ -1,3 +1,5 @@
+import angularApp from '../AngularApp';
+
 function AccountNameFilter() {
     return function(accountId, accounts) {
 
@@ -14,6 +16,5 @@ function AccountNameFilter() {
     };
 }
 
-angular
-    .module('scamperApp')
-    .filter('AccountNameFilter', AccountNameFilter);
+angularApp.filter('AccountNameFilter', AccountNameFilter);
+export default AccountNameFilter;

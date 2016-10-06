@@ -1,7 +1,14 @@
-function AccountDao(AbstractDao) {
-    return new AbstractDao('account');
+import angularApp from '../AngularApp';
+import AbstractDao from './AbstractDao';
+
+class AccountDao extends AbstractDao {
+
+    constructor(appSettings, Restangular) {
+        super(appSettings, Restangular);
+        this._resourceName = 'account';
+    }
+
 }
 
-angular
-    .module('scamperApp')
-    .factory('AccountDao', AccountDao);
+angularApp.factory('AccountDao', AccountDao);
+export default AccountDao;

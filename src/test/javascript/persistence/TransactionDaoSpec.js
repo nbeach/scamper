@@ -1,3 +1,6 @@
+import TransactionDao from '../../../main/javascript/persistence/TransactionDao';
+import moment from 'moment';
+
 describe('TransactionDaoSpec', function() {
     var abstractDao;
     var abstractDaoGetBaseSpy;
@@ -6,6 +9,7 @@ describe('TransactionDaoSpec', function() {
     var dummyPromise;
     var mockRestangularObject;
     var mockAppSettings;
+    var restangular;
 
     beforeEach(function() {
 
@@ -25,20 +29,17 @@ describe('TransactionDaoSpec', function() {
             }
         };
 
-        abstractDaoGetBaseSpy = jasmine.createSpy().andReturn(mockRestangularObject);
+        abstractDaoGetBaseSpy = jasmine.createSpy().and.returnValue(restangular);
 
         abstractDao = function() {
             this.getBase = abstractDaoGetBaseSpy;
         };
 
-        module('scamperApp');
-        module(function($provide) {
-            $provide.value('AbstractDao', abstractDao);
-            $provide.value('AppSettings', mockAppSettings);
-        });
-        inject(function (TransactionDao) {
-            transactionDao = TransactionDao;
-        });
+        restangular = jasmine.createSpyObj('restangular', ['withConfig', 'all', 'getList']);
+        restangular.withConfig.and.returnValue(restangular);
+
+        transactionDao = new TransactionDao(mockAppSettings, restangular);
+        transactionDao._resourceName = 'transaction';
     });
 
 
@@ -46,14 +47,14 @@ describe('TransactionDaoSpec', function() {
         var dummyStartDate = moment().subtract(1, 'months');
         var dummyEndDate = moment();
 
-        spyOn(mockRestangularObject, 'all').andReturn(mockRestangularObject);
-        spyOn(mockRestangularObject, 'getList').andReturn(dummyPromise);
+        restangular.all.and.returnValue(restangular);
+        restangular.getList.and.returnValue(dummyPromise);
 
         var result = transactionDao.getAllInDateRange(dummyStartDate, dummyEndDate);
 
         expect(result).toBe(dummyPromise);
-        expect(mockRestangularObject.all).toHaveBeenCalledWith('transaction')
-        expect(mockRestangularObject.getList).toHaveBeenCalledWith({
+        expect(restangular.all).toHaveBeenCalledWith('transaction');
+        expect(restangular.getList).toHaveBeenCalledWith({
             beginDate: dummyStartDate.format(mockAppSettings.api.dateFormat),
             endDate: dummyEndDate.format(mockAppSettings.api.dateFormat)
         });

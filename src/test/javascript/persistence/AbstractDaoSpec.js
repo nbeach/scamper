@@ -1,3 +1,5 @@
+import AbstractDao from '../../../main/javascript/persistence/AbstractDao';
+
 describe('AbstractDaoSpec', function() {
 
     var restangular;
@@ -6,7 +8,7 @@ describe('AbstractDaoSpec', function() {
     var dummyResourceName;
     var dummyResource;
     var dummyPromise;
-
+    var mockAppSettings;
 
     beforeEach( function() {
 
@@ -22,28 +24,29 @@ describe('AbstractDaoSpec', function() {
             then: function() {}
         };
 
-        module('scamperApp');
-        inject(function (Restangular, AbstractDao) {
+        mockAppSettings = {
+            api: {
+                url: 'someUrl'
+            }
+        };
+        dummyResourceName = 'someResource';
 
+        restangular = jasmine.createSpyObj('restangular', ['withConfig']);
+        restangular.withConfig.and.returnValue(restangular);
 
-            restangular = Restangular;
-            dummyResourceName = 'someResource';
-
-            spyOn(restangular, 'withConfig').andReturn(restangular);
-            abstractDao = new AbstractDao(dummyResourceName);
-        });
+        abstractDao = new AbstractDao(mockAppSettings, restangular);
+        abstractDao._resourceName = dummyResourceName;
     });
 
 
     function twoStepRestangularCallTest(testMethod, testParam, firstRestangularCall, secondRestangularCall) {
 
-        var mockResponse = {};
-        mockResponse[secondRestangularCall] = function(){};
+        restangular[firstRestangularCall] = jasmine.createSpy('restangular.' + firstRestangularCall);
+        var mockResponse = jasmine.createSpyObj('mockResponse', [secondRestangularCall]);
+        mockResponse[secondRestangularCall].and.returnValue(dummyPromise);
+        restangular[firstRestangularCall].and.returnValue(mockResponse);
 
-        spyOn(restangular, firstRestangularCall).andReturn(mockResponse);
-        spyOn(mockResponse, secondRestangularCall).andReturn(dummyPromise);
-
-        var result = testMethod(testParam);
+        var result = testMethod.call(abstractDao, testParam);
 
         expect(result).toBe(dummyPromise);
 
@@ -75,7 +78,7 @@ describe('AbstractDaoSpec', function() {
 
 
     function restangularCallOnParameterTest(testMethod, parameter, parameterMethod) {
-        spyOn(parameter, parameterMethod).andReturn(dummyPromise);
+        spyOn(parameter, parameterMethod).and.returnValue(dummyPromise);
 
         var result = testMethod(parameter);
 

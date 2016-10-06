@@ -1,3 +1,6 @@
+import angularApp from '../AngularApp';
+import template from '../../html/date-range-picker.html';
+
 function dateRangePickerCtrl($scope, $element) {
 
     var config = $scope.configuration();
@@ -39,13 +42,12 @@ function dateRangePickerCtrl($scope, $element) {
 
 }
 
-angular
-    .module('scamperApp')
+angularApp
     .controller('dateRangePickerCtrl', dateRangePickerCtrl)
     .directive('dateRangePicker', function() {
         return {
             restrict: 'EA',
-            templateUrl: 'views/date-range-picker.html',
+            template: template,
             scope: {
                 configuration: '&config'
             },
@@ -53,3 +55,4 @@ angular
             controller: 'dateRangePickerCtrl'
         };
     });
+export default dateRangePickerCtrl;

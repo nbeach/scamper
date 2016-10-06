@@ -1,7 +1,11 @@
-function TagService(AbstractService, TagDao) {
-    AbstractService.call(this, TagDao);
+import angularApp from '../AngularApp';
+import AbstractService from './AccountService';
+
+class TagService extends AbstractService {
+    constructor(TagDao) {
+        super(TagDao);
+    }
 }
 
-angular
-    .module('scamperApp')
-    .service('TagService', TagService);
+angularApp.service('TagService', TagService);
+export default TagService;

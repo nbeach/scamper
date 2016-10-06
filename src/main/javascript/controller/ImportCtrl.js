@@ -1,3 +1,6 @@
+import angularApp from '../AngularApp';
+import template from '../../html/import.html';
+
 function ImportCtrl(TransactionService, ReceiptService, AppSettings) {
 
     var files = [];
@@ -39,6 +42,5 @@ function ImportCtrl(TransactionService, ReceiptService, AppSettings) {
     };
 }
 
-angular
-    .module('scamperApp')
-    .controller('ImportCtrl', ImportCtrl);
+angularApp.controller('ImportCtrl', ImportCtrl);
+export default ImportCtrl;

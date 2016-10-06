@@ -1,38 +1,33 @@
-function AbstractDaoFactory(Restangular, AppSettings) {
+class AbstractDao {
 
-    return function AbstractDao(resourceName) {
-
-        var restangularBase = Restangular.withConfig(function (RestangularConfigurer) {
-            RestangularConfigurer.setBaseUrl(AppSettings.api.url);
+    constructor(appSettings, Restangular) {
+        this._appSettings = appSettings;
+        this._resourceName = this._resourceName || null;
+        this._restangularBase = Restangular.withConfig(function (RestangularConfigurer) {
+            RestangularConfigurer.setBaseUrl(this._appSettings.api.url);
         });
+    }
 
-        this.getBase = function () {
-            return restangularBase;
-        };
+    getAll() {
+        return this._restangularBase.all(this._resourceName).getList();
+    };
 
-        this.getAll = function () {
-            return restangularBase.all(resourceName).getList();
-        };
+    get(id) {
+        return this._restangularBase.one(this._resourceName, id).get();
+    };
 
-        this.get = function (id) {
-            return restangularBase.one(resourceName, id).get();
-        };
+    delete(resource) {
+        return resource.remove();
+    };
 
-        this.delete = function (resource) {
-            return resource.remove();
-        };
+    update(resource) {
+        return resource.put();
+    };
 
-        this.update = function (resource) {
-            return resource.put();
-        };
-
-        this.create = function (resource) {
-            return restangularBase.all(resourceName).post(resource);
-        };
+    create(resource) {
+        return this._restangularBase.all(this._resourceName).post(resource);
     };
 
 }
 
-angular
-    .module('scamperApp')
-    .factory('AbstractDao', AbstractDaoFactory);
+export default AbstractDao;

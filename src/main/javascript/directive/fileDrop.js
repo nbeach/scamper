@@ -1,3 +1,5 @@
+import angularApp from '../AngularApp';
+
 function fileReaderCtrl($scope, $element, FileReaderService) {
 
     function stopEvent(event) {
@@ -18,8 +20,7 @@ function fileReaderCtrl($scope, $element, FileReaderService) {
     $element.on("dragleave", stopEvent);
 }
 
-angular
-    .module('scamperApp')
+angularApp
     .controller('fileDropCtrl', fileReaderCtrl)
     .directive('fileDrop', function() {
         return {
@@ -31,3 +32,5 @@ angular
             controller: 'fileDropCtrl'
         };
     });
+
+export default fileReaderCtrl;

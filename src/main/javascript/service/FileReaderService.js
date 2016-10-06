@@ -1,3 +1,5 @@
+import angularApp from '../AngularApp';
+
 function FileReaderService(AppSettings) {
 
     var fileQueue = [];
@@ -23,7 +25,7 @@ function FileReaderService(AppSettings) {
     }
 
     function readFile(file, callback) {
-        var reader = new FileReader();
+        var reader = new window.FileReader();
 
         //Set the callback for when the file is loaded
         reader.onload = function(event) {
@@ -64,6 +66,5 @@ function FileReaderService(AppSettings) {
 
 }
 
-angular
-    .module('scamperApp')
-    .service('FileReaderService', FileReaderService);
+angularApp.service('FileReaderService', FileReaderService);
+export default FileReaderService;

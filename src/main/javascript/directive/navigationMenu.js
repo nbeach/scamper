@@ -1,13 +1,10 @@
-function navigationMenuCtrl($location, NavigationMenuService) {
+import angularApp from '../AngularApp';
+import template from '../../html/navigation.html';
 
-    var menuItems = [];
-
-    NavigationMenuService.get().then(function(MenuItems) {
-        menuItems = MenuItems;
-    });
+function navigationMenuCtrl($location, navigationMenuItems) {
 
     this.isActiveMenuItem = function (index) {
-        return menuItems[index].path === $location.path();
+        return navigationMenuItems[index].path === $location.path();
     };
 
     this.hasChildren = function (item) {
@@ -19,20 +16,20 @@ function navigationMenuCtrl($location, NavigationMenuService) {
     };
 
     this.getMenuItems = function() {
-        return menuItems;
+        return navigationMenuItems;
     };
 
 }
 
-angular
-    .module('scamperApp')
+angularApp
     .controller('navigationMenuCtrl', navigationMenuCtrl)
     .directive('navigationMenu', function () {
         return {
             restrict: 'EA',
-            templateUrl: 'views/navigation.html',
+            template: template,
             scope: {},
             controllerAs: 'ctrl',
             controller: 'navigationMenuCtrl'
         }
     });
+export default navigationMenuCtrl;

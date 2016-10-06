@@ -1,7 +1,14 @@
-function ReceiptDao(AbstractDao) {
-    return new AbstractDao('receipt');
+import angularApp from '../AngularApp';
+import AbstractDao from './AbstractDao';
+
+class ReceiptDao extends AbstractDao {
+
+    constructor(appSettings, Restangular) {
+        super(appSettings, Restangular);
+        this._resourceName = 'receipt';
+    }
+
 }
 
-angular
-    .module('scamperApp')
-    .factory('ReceiptDao', ReceiptDao);
+angularApp.factory('ReceiptDao', ReceiptDao);
+export default ReceiptDao;

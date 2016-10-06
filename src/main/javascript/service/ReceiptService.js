@@ -1,15 +1,21 @@
-function ReceiptService(AbstractService, ReceiptDao) {
-    AbstractService.call(this, ReceiptDao);
+import angularApp from '../AngularApp';
+import AbstractService from './AbstractService';
 
-    this.createFromImage = function(file) {
+class ReceiptService extends AbstractService {
+
+    constructor(ReceiptDao) {
+        super(ReceiptDao);
+    }
+
+    createFromImage(file) {
         var receipt = {
             mimeType: file.mimeType,
             file: file.data
         };
         return this.create(receipt);
-    };
+    }
+
 }
 
-angular
-    .module('scamperApp')
-    .service('ReceiptService', ReceiptService);
+angularApp.service('ReceiptService', ReceiptService);
+export default ReceiptService;

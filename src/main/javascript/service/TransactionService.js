@@ -1,9 +1,17 @@
-function TransactionService(AbstractService, TransactionDao, $log) {
-    AbstractService.call(this, TransactionDao);
+import angularApp from '../AngularApp';
+import AbstractService from './AbstractService';
+import moment from 'moment';
 
-    this.createFromCsv = function(file) {
+class TransactionService extends AbstractService {
 
-        var parseResult = Papa.parse(file.data.trim()).data; //TODO: Extract Papa parse to an interface
+    constructor(TransactionDao, Papa, $log) {
+        super(TransactionDao);
+        this._log = $log;
+        this._papa = Papa;
+    }
+
+    createFromCsv(file) {
+        var parseResult = this._papa.parse(file.data.trim()).data; //TODO: Extract Papa parse to an interface
         var columnTitles = parseResult.shift();
 
         var transactions = [];
@@ -13,13 +21,13 @@ function TransactionService(AbstractService, TransactionDao, $log) {
         } else if(columnTitles[0] === 'Type') {
             transactions = this.createTransactionsFromChase(parseResult);
         } else {
-            $log.warn('Unknown CSV structure. File Ignored.');
+            this._log.warn('Unknown CSV structure. File Ignored.');
         }
 
         return this.create(transactions);
-    };
+    }
 
-    this.createTransactionsFromHuntington = function(parsedObjects) {
+    createTransactionsFromHuntington(parsedObjects) {
 
         var transactions = [];
 
@@ -42,9 +50,9 @@ function TransactionService(AbstractService, TransactionDao, $log) {
         });
 
         return transactions;
-    };
+    }
 
-    this.createTransactionsFromChase = function(parsedObjects) {
+    createTransactionsFromChase(parsedObjects) {
 
         var transactions = [];
 
@@ -60,15 +68,13 @@ function TransactionService(AbstractService, TransactionDao, $log) {
         });
 
         return transactions;
-    };
+    }
 
-    this.getAllInDateRange = function(beginDate, endDate) {
-        return TransactionDao.getAllInDateRange(beginDate, endDate);
-    };
-
+    getAllInDateRange(beginDate, endDate) {
+        return this._dao.getAllInDateRange(beginDate, endDate);
+    }
 
 }
 
-angular
-    .module('scamperApp')
-    .service('TransactionService', TransactionService);
+angularApp.service('TransactionService', TransactionService);
+export default TransactionService;

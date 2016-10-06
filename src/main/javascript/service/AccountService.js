@@ -1,7 +1,11 @@
-function AccountService(AbstractService, AccountDao) {
-    AbstractService.call(this, AccountDao);
+import angularApp from '../AngularApp';
+import AbstractService from './AccountService';
+
+class AccountService extends AbstractService {
+    constructor(AccountDao) {
+        super(AccountDao);
+    }
 }
 
-angular
-    .module('scamperApp')
-    .service('AccountService', AccountService);
+angularApp.service('AccountService', AccountService);
+export default AccountService;

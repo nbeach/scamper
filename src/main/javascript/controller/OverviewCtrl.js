@@ -1,7 +1,9 @@
+import angularApp from '../AngularApp';
+import template from '../../html/overview.html';
+
 function OverviewCtrl() {
 
 }
 
-angular
-    .module('scamperApp')
-    .controller('OverviewCtrl', OverviewCtrl);
+angularApp.controller('OverviewCtrl', OverviewCtrl);
+export default OverviewCtrl;

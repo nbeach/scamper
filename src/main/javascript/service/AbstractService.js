@@ -1,30 +1,32 @@
-function AbstractServiceFactory() {
+import angularApp from '../AngularApp';
 
-    return function AbstractService(dao) {
+class AbstractService {
 
-        this.getAll = function (limit) {
-            return dao.getAll(limit);
-        };
 
-        this.get = function (id) {
-            return dao.get(id);
-        };
+    constructor(dao) {
+        this._dao = dao;
+    }
 
-        this.delete = function (resource) {
-            return dao.delete(resource);
-        };
+    getAll(limit) {
+        return this._dao.getAll(limit);
+    }
 
-        this.update = function (resource) {
-            return dao.update(resource);
-        };
+    get(id) {
+        return this._dao.get(id);
+    };
 
-        this.create = function (resource) {
-            return dao.create(resource);
-        };
+    delete(resource) {
+        return this._dao.delete(resource);
+    };
+
+    update(resource) {
+        return this._dao.update(resource);
+    };
+
+    create(resource) {
+        return this._dao.create(resource);
     };
 
 }
 
-angular
-    .module('scamperApp')
-    .factory('AbstractService', AbstractServiceFactory);
+export default AbstractService;

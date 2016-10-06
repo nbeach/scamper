@@ -1,4 +1,7 @@
-function TransactionCtrl(TransactionService, Accounts, Transactions, AppSettings) {
+import angularApp from '../AngularApp';
+import template from '../../html/transaction.html';
+
+function TransactionCtrl(TransactionService, Accounts, Transactions, appSettings) {
     var self = this;
 
     this.transactions = Transactions;
@@ -47,17 +50,16 @@ function TransactionCtrl(TransactionService, Accounts, Transactions, AppSettings
     };
 
     this.dateRangerPickerConfig = {
-        initialBeginDate: AppSettings.transaction.default.beginDate,
-        initialEndDate: AppSettings.transaction.default.endDate,
-        minimumDate: AppSettings.transaction.default.minimumDate,
-        maximumDate: AppSettings.transaction.default.maximumDate,
-        displayFormat: AppSettings.date.displayFormat,
+        initialBeginDate: appSettings.transaction.default.beginDate,
+        initialEndDate: appSettings.transaction.default.endDate,
+        minimumDate: appSettings.transaction.default.minimumDate,
+        maximumDate: appSettings.transaction.default.maximumDate,
+        displayFormat: appSettings.date.displayFormat,
         initialView: 'months',
         dateChanged: this.dateChanged
     };
 
 }
 
-angular
-    .module('scamperApp')
-    .controller('TransactionCtrl', TransactionCtrl);
+angularApp.controller('TransactionCtrl', TransactionCtrl);
+export default TransactionCtrl;

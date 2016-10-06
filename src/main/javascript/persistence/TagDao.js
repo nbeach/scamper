@@ -1,7 +1,14 @@
-function TagDao(AbstractDao) {
-    return new AbstractDao('tag');
+import angularApp from '../AngularApp';
+import AbstractDao from './AbstractDao';
+
+class TagDao extends AbstractDao {
+
+    constructor(appSettings, Restangular) {
+        super(appSettings, Restangular);
+        this._resourceName = 'tag';
+    }
+
 }
 
-angular
-    .module('scamperApp')
-    .factory('TagDao', TagDao);
+angularApp.factory('TagDao', TagDao);
+export default TagDao;

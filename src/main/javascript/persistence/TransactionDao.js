@@ -1,16 +1,20 @@
-function TransactionDao(AbstractDao, AppSettings) {
-    var resourceName = 'transaction';
-    var dao = new AbstractDao(resourceName);
+import angularApp from '../AngularApp';
+import AbstractDao from './AbstractDao';
 
-    dao.getAllInDateRange = function(beginDate, endDate) {
-        var formattedBeginDate = beginDate.format(AppSettings.api.dateFormat);
-        var formattedEndDate = endDate.format(AppSettings.api.dateFormat);
-        return dao.getBase().all(resourceName).getList({beginDate: formattedBeginDate, endDate: formattedEndDate});
+class TransactionDao extends AbstractDao {
+
+    constructor(appSettings, Restangular) {
+        super(appSettings, Restangular);
+        this._resourceName = 'tag';
+    }
+
+    getAllInDateRange(beginDate, endDate) {
+        var formattedBeginDate = beginDate.format(this._appSettings.api.dateFormat);
+        var formattedEndDate = endDate.format(this._appSettings.api.dateFormat);
+        return this._restangularBase.all(this._resourceName).getList({beginDate: formattedBeginDate, endDate: formattedEndDate});
     };
 
-    return dao;
 }
 
-angular
-    .module('scamperApp')
-    .factory('TransactionDao', TransactionDao);
+angularApp.factory('TransactionDao', TransactionDao);
+export default TransactionDao;
